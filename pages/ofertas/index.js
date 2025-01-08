@@ -1,6 +1,6 @@
 // import Product from "./Sections/Product/Product";
 
-const { Client } = require("@notionhq/client");
+import { Client } from "@notionhq/client";
 import { useEffect, useState } from "react";
 import { get_prices } from "../api/renovapp/prices";
 import { get_products_filters } from "../api/sheets/product_filters";
