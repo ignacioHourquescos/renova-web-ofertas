@@ -7,7 +7,7 @@ import PromotionalCard from "./components/promotional-card/PromotionalCard";
 export const Ofertas = ({ categories, products }) => {
 	return (
 		<Styled.Container>
-			<Title>DESTACADOS</Title>
+			<Title>DESTACADOS!</Title>
 			{products
 				.filter((element) => element.category == "DESTACADO")
 				.map((element, idx) => (

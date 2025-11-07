@@ -3,26 +3,26 @@ import device from "../../../../utils/utils";
 
 export const Styled = {
 	Inner: styled.div`
-    box-shadow: 0 0 7px 0px rgba(0, 0, 0, 0.4);
-    width: 18%;
-    height: 40vh;
-    margin: 0%;
-    border-color: ${(props) => props.borderColor});
-    box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    background-color: white;
-    position: relative;
-    margin: 1%;
-    border-radius:5px;
-    @media ${device.mobileL} {
-      width: 31%;
-      height: 23vh;
-      background-size: cover;
-      background-position: center;     
-      margin: 1%;
-    }
-  `,
+		box-shadow: 0 0 7px 0px rgba(0, 0, 0, 0.4);
+		width: 18%;
+		height: 40vh;
+		margin: 1%;
+		border-color: ${(props) => props.borderColor};
+		box-sizing: border-box;
+		-moz-box-sizing: border-box;
+		-webkit-box-sizing: border-box;
+		background-color: white;
+		position: relative;
+		border-radius: 5px;
+
+		@media ${device.tablet} {
+			width: 31.33%;
+			height: 25vh;
+			background-size: cover;
+			background-position: center;
+			margin: 1%;
+		}
+	`,
 	Image: styled.div.attrs((props) => ({
 		type: "text",
 		imageUrl: props.imageUrl,

@@ -1,5 +1,3 @@
-// import Product from "./Sections/Product/Product";
-
 import { Client } from "@notionhq/client";
 import { useState, useEffect } from "react";
 import { get_prices } from "../api/renovapp/prices";
@@ -7,7 +5,7 @@ import { Ofertas as OfertasDetail } from "../../components/ofertas/index";
 import Loader from "../../components/UI/Loader";
 import { useRouter } from "next/router";
 
-export default function Home() {
+const Ofertas2Page = () => {
 	const router = useRouter();
 	const [loading, setLoading] = useState(true);
 	const [consolidatedProducts, setConsolidatedProducts] = useState([]);
@@ -36,8 +34,26 @@ export default function Home() {
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
+				const notion = new Client({
+					auth: "secret_4yG0RqGh5tXyLuKm3gRMhyvRf1ygu6sNRINVQliEofc",
+				});
+
 				const [notionResponse, prices] = await Promise.all([
-					fetch("/api/notion/products").then((res) => res.json()),
+					notion.databases.query({
+						database_id: "2bca360b3aae4517abae717845adbc9a",
+						sorts: [
+							{
+								property: "codigo",
+								direction: "ascending",
+							},
+						],
+						filter: {
+							property: "activo",
+							checkbox: {
+								equals: true,
+							},
+						},
+					}),
 					get_prices(),
 				]);
 
@@ -99,4 +115,6 @@ export default function Home() {
 			)}
 		</>
 	);
-}
+};
+
+export default Ofertas2Page;

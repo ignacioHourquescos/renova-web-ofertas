@@ -17,9 +17,8 @@ export const Styled = {
 
 		background-image: url(${(props) => props.imageUrl});
 
-		@media ${device.mobileL} {
+		@media ${device.tablet} {
 			width: 100%;
-			height: 50vh;
 			margin: 0%;
 			background-size: cover;
 			background-position: center;
