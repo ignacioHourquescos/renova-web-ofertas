@@ -1,11 +1,20 @@
+import { useState } from "react";
+import ImageLightbox from "../../../UI/ImageLightbox";
 import { Styled } from "./styles";
 
 const PromotionalCard = ({ promotions }) => {
+	const [isLightboxOpen, setIsLightboxOpen] = useState(false);
+
 	return (
 		<>
 			{promotions.active && (
 				<Styled.Inner>
-					<Styled.Image imageUrl={promotions?.imageUrl}></Styled.Image>
+					<Styled.Image
+						imageUrl={promotions?.imageUrl}
+						onClick={() => setIsLightboxOpen(true)}
+						role="button"
+						aria-label="Ampliar imagen de la oferta"
+					/>
 					<Styled.Ribbon>
 						<Styled.TextContainer>
 							<Styled.Title>{promotions.id}</Styled.Title>
@@ -27,6 +36,13 @@ const PromotionalCard = ({ promotions }) => {
             Valido hasta: {promotions?.validity}
           </Styled.Validity> */}
 				</Styled.Inner>
+			)}
+			{isLightboxOpen && (
+				<ImageLightbox
+					imageUrl={promotions?.imageUrl}
+					alt={promotions?.title || promotions?.id || "Oferta ampliada"}
+					onClose={() => setIsLightboxOpen(false)}
+				/>
 			)}
 		</>
 	);

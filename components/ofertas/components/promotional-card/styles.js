@@ -34,6 +34,7 @@ export const Styled = {
 		background-size: contain;
 		background-repeat: no-repeat;
 		background-position: center;
+		cursor: zoom-in;
 
 		background-image: url(${(props) => props.imageUrl});
 	`,

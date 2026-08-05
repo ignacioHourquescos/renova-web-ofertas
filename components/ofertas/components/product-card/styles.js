@@ -34,6 +34,7 @@ export const Styled = {
 		height: 55%;
 		width: 80%;
 		margin: 7.5% 10%;
+		cursor: zoom-in;
 
 		@media ${device.mobileL} {
 			width: 80%;
