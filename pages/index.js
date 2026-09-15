@@ -1,18 +1,12 @@
-import React, { useEffect } from "react";
-import Link from "next/link";
+import { useEffect } from "react";
 import { useRouter } from "next/router";
 
-export default function Ofertas() {
-  const router = useRouter();
+export default function Home() {
+	const router = useRouter();
 
-  useEffect(() => {
-    router.push("/ofertas");
-  });
+	useEffect(() => {
+		router.replace("/ofertas/promociones");
+	}, [router]);
 
-  return (
-    <>
-      {/* <Link href="/home"> OFERTAS</Link>
-      <Link href="/home"> LISTAS</Link> */}
-    </>
-  );
+	return null;
 }

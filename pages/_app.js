@@ -1,7 +1,19 @@
-import '../styles/globals.css'
+import "../styles/globals.css";
+import SplashScreen from "../components/UI/splash/SplashScreen";
+import { preloadOfertas } from "../hooks/useOfertas";
 
-function MyApp({ Component, pageProps }) {
-  return <Component {...pageProps} />
+// Arranca la carga apenas se hidrata el cliente (antes / junto al splash).
+if (typeof window !== "undefined") {
+	preloadOfertas().catch(() => {});
 }
 
-export default MyApp
+function MyApp({ Component, pageProps }) {
+	return (
+		<>
+			<SplashScreen />
+			<Component {...pageProps} />
+		</>
+	);
+}
+
+export default MyApp;

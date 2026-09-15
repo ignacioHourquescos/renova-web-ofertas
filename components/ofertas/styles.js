@@ -13,13 +13,25 @@ export const Styled = {
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: flex-start;
+    align-content: flex-start;
     background-color: none;
-    padding-bottom: 10%;
+    padding-bottom: 6.5rem;
     @media ${device.mobileL} {
       width: 90%;
       margin: 5%;
+      padding-bottom: 7rem;
     }
   `,
+  Section: styled.section`
+    width: 100%;
+    display: flex;
+    flex-direction: ${(props) => (props.$layout === "list" ? "column" : "row")};
+    flex-wrap: ${(props) => (props.$layout === "list" ? "nowrap" : "wrap")};
+    justify-content: flex-start;
+    align-content: flex-start;
+    scroll-margin-top: 5.5rem;
+  `,
+
   ProductsContainer: styled.div`
     width: 75%;
     margin: 0 12.5%;
