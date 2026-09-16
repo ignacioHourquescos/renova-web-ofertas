@@ -1,13 +1,12 @@
-import OfertasLayout from "../../components/ofertas/OfertasLayout";
-import DestacadosView from "../../components/ofertas/views/DestacadosView";
-import { useOfertas } from "../../hooks/useOfertas";
+import { useEffect } from "react";
+import { useRouter } from "next/router";
 
-export default function DestacadosPage() {
-	const { destacados, loading, error } = useOfertas();
+export default function DestacadosRedirect() {
+	const router = useRouter();
 
-	return (
-		<OfertasLayout loading={loading} error={error}>
-			<DestacadosView destacados={destacados} />
-		</OfertasLayout>
-	);
+	useEffect(() => {
+		router.replace("/ofertas/lubricantes");
+	}, [router]);
+
+	return null;
 }

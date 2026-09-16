@@ -1,13 +1,12 @@
-import OfertasLayout from "../../components/ofertas/OfertasLayout";
-import ComparativaView from "../../components/ofertas/views/ComparativaView";
-import { useOfertas } from "../../hooks/useOfertas";
+import { useEffect } from "react";
+import { useRouter } from "next/router";
 
-export default function ComparativaPage() {
-	const { destacados, loading, error } = useOfertas();
+export default function ComparativaRedirect() {
+	const router = useRouter();
 
-	return (
-		<OfertasLayout loading={loading} error={error}>
-			<ComparativaView destacados={destacados} />
-		</OfertasLayout>
-	);
+	useEffect(() => {
+		router.replace("/ofertas/otros");
+	}, [router]);
+
+	return null;
 }

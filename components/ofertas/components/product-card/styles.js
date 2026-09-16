@@ -8,8 +8,8 @@ const cardLayout = css`
 	flex-direction: column;
 
 	@media ${device.tablet} {
-		width: 31.33%;
-		height: 25vh;
+		width: 48%;
+		height: 36vh;
 		margin: 1%;
 	}
 `;

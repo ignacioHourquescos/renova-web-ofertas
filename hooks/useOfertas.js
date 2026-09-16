@@ -17,6 +17,7 @@ async function loadOfertas() {
 				flyers: Array.isArray(data.flyers) ? data.flyers : [],
 				kits: Array.isArray(data.kits) ? data.kits : [],
 				destacados: Array.isArray(data.destacados) ? data.destacados : [],
+				otros: Array.isArray(data.otros) ? data.otros : [],
 			};
 			return cache;
 		})
@@ -37,38 +38,41 @@ export function getOfertasCache() {
 }
 
 export function useOfertas() {
-	const [flyers, setFlyers] = useState(cache?.flyers || []);
-	const [kits, setKits] = useState(cache?.kits || []);
-	const [destacados, setDestacados] = useState(cache?.destacados || []);
-	const [loading, setLoading] = useState(!cache);
+	const [flyers, setFlyers] = useState([]);
+	const [kits, setKits] = useState([]);
+	const [destacados, setDestacados] = useState([]);
+	const [otros, setOtros] = useState([]);
+	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState(null);
 
 	useEffect(() => {
 		let cancelled = false;
 
-		if (cache) {
-			setFlyers(cache.flyers);
-			setKits(cache.kits);
-			setDestacados(cache.destacados);
+		const apply = (data) => {
+			if (cancelled || !data) return;
+			setFlyers(data.flyers);
+			setKits(data.kits);
+			setDestacados(data.destacados);
+			setOtros(data.otros || []);
+			setError(null);
 			setLoading(false);
-			return;
+		};
+
+		if (cache) {
+			apply(cache);
+			return () => {
+				cancelled = true;
+			};
 		}
 
-		setLoading(true);
 		loadOfertas()
-			.then((data) => {
-				if (cancelled) return;
-				setFlyers(data.flyers);
-				setKits(data.kits);
-				setDestacados(data.destacados);
-				setError(null);
-			})
+			.then(apply)
 			.catch((err) => {
 				console.error("Error fetching ofertas:", err);
-				if (!cancelled) setError(err);
-			})
-			.finally(() => {
-				if (!cancelled) setLoading(false);
+				if (!cancelled) {
+					setError(err);
+					setLoading(false);
+				}
 			});
 
 		return () => {
@@ -76,7 +80,7 @@ export function useOfertas() {
 		};
 	}, []);
 
-	return { flyers, kits, destacados, loading, error };
+	return { flyers, kits, destacados, otros, loading, error };
 }
 
 /** Aplana secciones de destacados en una lista de ítems. */

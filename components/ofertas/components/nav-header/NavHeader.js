@@ -24,27 +24,10 @@ const IconPromociones = () => (
 	</svg>
 );
 
-const IconKits = () => (
+const IconFiltros = () => (
 	<svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
 		<path
-			d="M4.5 8.5 12 4l7.5 4.5v7L12 20l-7.5-4.5v-7Z"
-			stroke="currentColor"
-			strokeWidth="1.8"
-			strokeLinejoin="round"
-		/>
-		<path
-			d="M12 12 4.7 7.7M12 12l7.3-4.3M12 12v8"
-			stroke="currentColor"
-			strokeWidth="1.8"
-			strokeLinecap="round"
-		/>
-	</svg>
-);
-
-const IconDestacados = () => (
-	<svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-		<path
-			d="m12 3.5 2.35 4.76 5.25.76-3.8 3.7.9 5.23L12 15.5l-4.7 2.45.9-5.23-3.8-3.7 5.25-.76L12 3.5Z"
+			d="M5 5h14l-5.2 6.4V18l-3.6 2v-8.6L5 5Z"
 			stroke="currentColor"
 			strokeWidth="1.8"
 			strokeLinejoin="round"
@@ -52,19 +35,67 @@ const IconDestacados = () => (
 	</svg>
 );
 
-const IconComparativa = () => (
+const IconLubricantes = () => (
 	<svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
 		<path
-			d="M5 19V9M10 19V5M15 19v-7M20 19V8"
+			d="M8 8.5V5.8c0-.4.2-.8.5-1L11 3h2l2.5 1.8c.3.2.5.6.5 1V8.5"
+			stroke="currentColor"
+			strokeWidth="1.8"
+			strokeLinecap="round"
+			strokeLinejoin="round"
+		/>
+		<path
+			d="M7.5 8.5h9v11.2c0 .7-.6 1.3-1.3 1.3H8.8c-.7 0-1.3-.6-1.3-1.3V8.5Z"
+			stroke="currentColor"
+			strokeWidth="1.8"
+			strokeLinejoin="round"
+		/>
+		<path
+			d="M10 13h4"
 			stroke="currentColor"
 			strokeWidth="1.8"
 			strokeLinecap="round"
 		/>
-		<path
-			d="M3.5 19.5h17"
+	</svg>
+);
+
+const IconOtros = () => (
+	<svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+		<rect
+			x="4"
+			y="4"
+			width="7"
+			height="7"
+			rx="1.4"
 			stroke="currentColor"
 			strokeWidth="1.8"
-			strokeLinecap="round"
+		/>
+		<rect
+			x="13"
+			y="4"
+			width="7"
+			height="7"
+			rx="1.4"
+			stroke="currentColor"
+			strokeWidth="1.8"
+		/>
+		<rect
+			x="4"
+			y="13"
+			width="7"
+			height="7"
+			rx="1.4"
+			stroke="currentColor"
+			strokeWidth="1.8"
+		/>
+		<rect
+			x="13"
+			y="13"
+			width="7"
+			height="7"
+			rx="1.4"
+			stroke="currentColor"
+			strokeWidth="1.8"
 		/>
 	</svg>
 );
@@ -77,17 +108,22 @@ export const NAV_ITEMS = [
 		Icon: IconPromociones,
 	},
 	{
-		id: "destacados",
-		label: "Destacados",
-		href: "/ofertas/destacados",
-		Icon: IconDestacados,
+		id: "filtros",
+		label: "Filtros",
+		href: "/ofertas/filtros",
+		Icon: IconFiltros,
 	},
-	{ id: "kits", label: "Kits", href: "/ofertas/kits", Icon: IconKits },
 	{
-		id: "comparativa",
-		label: "Comparativa",
-		href: "/ofertas/comparativa",
-		Icon: IconComparativa,
+		id: "lubricantes",
+		label: "Lubricantes",
+		href: "/ofertas/lubricantes",
+		Icon: IconLubricantes,
+	},
+	{
+		id: "otros",
+		label: "Otros",
+		href: "/ofertas/otros",
+		Icon: IconOtros,
 	},
 ];
 

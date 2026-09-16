@@ -1,13 +1,12 @@
-import OfertasLayout from "../../components/ofertas/OfertasLayout";
-import KitsView from "../../components/ofertas/views/KitsView";
-import { useOfertas } from "../../hooks/useOfertas";
+import { useEffect } from "react";
+import { useRouter } from "next/router";
 
-export default function KitsPage() {
-	const { kits, loading, error } = useOfertas();
+export default function KitsRedirect() {
+	const router = useRouter();
 
-	return (
-		<OfertasLayout loading={loading} error={error}>
-			<KitsView kits={kits} />
-		</OfertasLayout>
-	);
+	useEffect(() => {
+		router.replace("/ofertas/filtros");
+	}, [router]);
+
+	return null;
 }

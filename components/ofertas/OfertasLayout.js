@@ -16,7 +16,7 @@ export default function OfertasLayout({ loading, error, children }) {
 	return (
 		<>
 			<NavHeader />
-			{!loading ? <Styled.Container>{children}</Styled.Container> : null}
+			<Styled.Container>{loading ? null : children}</Styled.Container>
 		</>
 	);
 }
