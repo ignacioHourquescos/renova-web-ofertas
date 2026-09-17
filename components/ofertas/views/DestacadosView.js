@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from "react";
-import FilterControl from "../components/filter/FilterControl";
+import FilterControl, { FILTER_BAR_ENABLED } from "../components/filter/FilterControl";
 import {
 	applyDestacadosFilters,
 	buildDestacadosFilterGroups,
@@ -15,35 +15,40 @@ export default function DestacadosView({ destacados = [] }) {
 	const [selected, setSelected] = useState({ seccion: [], marca: [] });
 	const { viewMode, toggleViewMode } = useViewMode();
 	const { priceSort, togglePriceSort } = usePriceSort();
+	// Sin la barra, la vista queda en tarjetas y sin orden por precio.
+	const layout = FILTER_BAR_ENABLED ? viewMode : "cards";
+	const sort = FILTER_BAR_ENABLED ? priceSort : null;
 	const groups = useMemo(() => buildDestacadosFilterGroups(destacados), [destacados]);
 	const filtered = useMemo(() => {
 		const sections = applyDestacadosFilters(destacados, selected);
-		if (!priceSort) return sections;
+		if (!sort) return sections;
 		return sections.map((seccion) => ({
 			...seccion,
-			items: sortByPrice(seccion.items || [], priceSort),
+			items: sortByPrice(seccion.items || [], sort),
 		}));
-	}, [destacados, selected, priceSort]);
+	}, [destacados, selected, sort]);
 
 	return (
 		<>
-			<FilterControl
-				groups={groups}
-				selected={selected}
-				onChange={setSelected}
-				viewMode={viewMode}
-				onToggleView={toggleViewMode}
-				priceSort={priceSort}
-				onTogglePriceSort={togglePriceSort}
-			/>
-			<Styled.Section $layout={viewMode}>
+			{FILTER_BAR_ENABLED ? (
+				<FilterControl
+					groups={groups}
+					selected={selected}
+					onChange={setSelected}
+					viewMode={viewMode}
+					onToggleView={toggleViewMode}
+					priceSort={priceSort}
+					onTogglePriceSort={togglePriceSort}
+				/>
+			) : null}
+			<Styled.Section $layout={layout}>
 				{filtered.map((seccion) => (
 					<React.Fragment key={seccion.seccionId}>
 						<Title>{seccion.seccionNombre}</Title>
 						{seccion.items.map((item) => (
 							<ProductCard
 								key={item.id}
-								layout={viewMode}
+								layout={layout}
 								product={{
 									id: item.id,
 									brand: item.marca,

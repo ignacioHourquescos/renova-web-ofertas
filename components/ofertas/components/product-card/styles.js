@@ -1,17 +1,13 @@
 import styled, { css } from "styled-components";
 import device from "../../../../utils/utils";
 
+/** Medida única de tarjeta (--card-w/--card-h): la comparten home y secciones. */
 const cardLayout = css`
-	width: 23%;
-	height: 40vh;
-	margin: 1%;
+	flex: 0 0 auto;
+	width: var(--card-w);
+	height: var(--card-h);
+	margin: 0;
 	flex-direction: column;
-
-	@media ${device.tablet} {
-		width: 48%;
-		height: 36vh;
-		margin: 1%;
-	}
 `;
 
 const listLayout = css`
@@ -32,8 +28,8 @@ const listLayout = css`
 
 export const Styled = {
 	Inner: styled.div`
-		box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
-		border: 1px solid rgba(0, 0, 0, 0.06);
+		box-shadow: 0 8px 22px rgba(0, 0, 0, 0.16);
+		border: 1px solid rgba(0, 0, 0, 0.07);
 		box-sizing: border-box;
 		background-color: #fff;
 		position: relative;
@@ -45,7 +41,8 @@ export const Styled = {
 	Media: styled.div`
 		position: relative;
 		flex-shrink: 0;
-		touch-action: pan-y;
+		/* Sin touch-action propio: si se limita a pan-y, el riel de la home no se
+		   puede arrastrar cuando el gesto arranca sobre la imagen. */
 
 		${(props) =>
 			props.$layout === "list"
@@ -61,14 +58,11 @@ export const Styled = {
 			}
 		`
 				: `
-			height: 55%;
-			width: 80%;
-			margin: 7.5% 10%;
-
-			@media ${device.mobileL} {
-				width: 80%;
-				margin: 7.5% 10%;
-			}
+			flex: 0 0 65%;
+			height: 65%;
+			width: 100%;
+			margin: 0;
+			padding: 5% 8% 3%;
 		`}
 	`,
 	Image: styled.div`
@@ -79,7 +73,7 @@ export const Styled = {
 		background-position: center;
 		width: 100%;
 		height: 100%;
-		cursor: ${(props) => (props.$imageUrl ? "zoom-in" : "default")};
+		cursor: ${(props) => (props.$zoom && props.$imageUrl ? "zoom-in" : "default")};
 	`,
 	Grid: styled.div`
 		display: grid;
@@ -265,6 +259,7 @@ export const Styled = {
 				: `
 			font-size: 0.72rem;
 			text-align: center;
+			flex-shrink: 0;
 
 			@media ${device.mobileL} {
 				font-size: 0.58rem;
@@ -295,10 +290,15 @@ export const Styled = {
 			gap: 0.75rem;
 		`
 				: `
+			flex: 0 0 35%;
 			flex-direction: column;
 			justify-content: space-between;
 			align-items: stretch;
 			height: 35%;
+			min-height: 0;
+			overflow: hidden;
+			gap: 0.1rem;
+			padding: 0.35rem 0 0.45rem;
 		`}
 	`,
 	TextBlock: styled.div`
@@ -318,11 +318,16 @@ export const Styled = {
 		`
 				: `
 			width: 100%;
+			flex: 0 1 auto;
+			min-height: 0;
+			overflow: hidden;
 			align-items: center;
-			padding: 0.4rem 0.5rem 0.1rem;
+			justify-content: flex-start;
+			gap: 0.12rem;
+			padding: 0 0.4rem;
 
 			@media ${device.mobileL} {
-				padding: 0.3rem 0.3rem 0.05rem;
+				padding: 0 0.25rem;
 			}
 		`}
 	`,
@@ -343,7 +348,8 @@ export const Styled = {
 		`
 				: `
 			width: 100%;
-			padding: 0.25rem 0.45rem 0.5rem;
+			flex: 0 0 auto;
+			padding: 0 0.4rem;
 			gap: 0.1rem;
 		`}
 	`,
@@ -369,7 +375,12 @@ export const Styled = {
 			font-size: 0.95rem;
 			width: 100%;
 			padding: 0;
+			flex-shrink: 0;
 			text-align: center;
+			display: -webkit-box;
+			-webkit-line-clamp: 2;
+			-webkit-box-orient: vertical;
+			overflow: hidden;
 
 			@media ${device.mobileL} {
 				font-size: 0.68rem;
@@ -397,8 +408,13 @@ export const Styled = {
 				: `
 			font-size: 0.72rem;
 			width: 100%;
-			padding: 0.15rem 0.35rem 0;
+			padding: 0.05rem 0.3rem 0;
+			flex-shrink: 0;
 			text-align: center;
+			display: -webkit-box;
+			-webkit-line-clamp: 1;
+			-webkit-box-orient: vertical;
+			overflow: hidden;
 
 			@media ${device.mobileL} {
 				font-size: 0.58rem;

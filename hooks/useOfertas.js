@@ -1,18 +1,29 @@
 import { useState, useEffect } from "react";
 
 const OFERTAS_URL = `${process.env.NEXT_PUBLIC_URL}/ofertas`;
+const FETCH_TIMEOUT_MS = 10000;
 
 let cache = null;
 let inflight = null;
+
+async function fetchOfertas() {
+	const controller = new AbortController();
+	const timer = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS);
+	try {
+		const res = await fetch(OFERTAS_URL, { signal: controller.signal });
+		if (!res.ok) throw new Error(`Error ${res.status} al cargar ofertas`);
+		return res.json();
+	} finally {
+		clearTimeout(timer);
+	}
+}
 
 async function loadOfertas() {
 	if (cache) return cache;
 	if (inflight) return inflight;
 
-	inflight = fetch(OFERTAS_URL)
-		.then(async (res) => {
-			if (!res.ok) throw new Error(`Error ${res.status} al cargar ofertas`);
-			const data = await res.json();
+	inflight = fetchOfertas()
+		.then((data) => {
 			cache = {
 				flyers: Array.isArray(data.flyers) ? data.flyers : [],
 				kits: Array.isArray(data.kits) ? data.kits : [],

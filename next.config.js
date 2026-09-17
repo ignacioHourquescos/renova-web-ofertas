@@ -1,5 +1,11 @@
+const path = require("path");
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+	outputFileTracingRoot: path.join(__dirname),
+	turbopack: {
+		root: path.join(__dirname),
+	},
 	reactStrictMode: true,
 	images: {
 		domains: ["team.valvoline.com"],

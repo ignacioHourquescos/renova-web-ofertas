@@ -5,7 +5,7 @@ export default function Home() {
 	const router = useRouter();
 
 	useEffect(() => {
-		router.replace("/ofertas/promociones");
+		router.replace("/ofertas");
 	}, [router]);
 
 	return null;

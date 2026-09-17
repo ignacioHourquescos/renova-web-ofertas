@@ -47,7 +47,7 @@ function buildSlides(product) {
 	return [];
 }
 
-const ProductCard = ({ product, layout = "cards" }) => {
+const ProductCard = ({ product, layout = "cards", enableZoom = true }) => {
 	const [lightbox, setLightbox] = useState(null);
 	const [index, setIndex] = useState(0);
 	const touchStartX = useRef(null);
@@ -73,11 +73,11 @@ const ProductCard = ({ product, layout = "cards" }) => {
 
 	const goTo = (next) => {
 		if (!slides.length) return;
-		setIndex((prev) => (next + slides.length) % slides.length);
+		setIndex((next + slides.length) % slides.length);
 	};
 
 	const openLightbox = (url, alt) => {
-		if (!url || didSwipe.current) return;
+		if (!enableZoom || !url || didSwipe.current) return;
 		setLightbox({ url, alt: alt || product.title || "Producto ampliado" });
 	};
 
@@ -137,12 +137,13 @@ const ProductCard = ({ product, layout = "cards" }) => {
 						<Styled.Image
 							$layout={layout}
 							$imageUrl={current?.url}
+							$zoom={enableZoom}
 							onClick={() =>
 								openLightbox(current?.fullUrl || current?.url, current?.label)
 							}
-							role={current?.url ? "button" : undefined}
+							role={enableZoom && current?.url ? "button" : undefined}
 							aria-label={
-								current?.url
+								enableZoom && current?.url
 									? `Ampliar imagen${current.label ? `: ${current.label}` : ""}`
 									: undefined
 							}

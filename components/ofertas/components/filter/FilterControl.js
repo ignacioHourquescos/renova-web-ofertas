@@ -72,6 +72,15 @@ const IconPriceDesc = () => (
 );
 
 /**
+ * Interruptor único de la barra flotante de filtros (pastilla + vista + orden).
+ * Está apagada "por ahora": las vistas muestran sólo títulos y tarjetas.
+ * Para volver a habilitarla: poner `true` acá y devolver el `padding-bottom`
+ * de `Styled.Container` (components/ofertas/styles.js) a 6.5rem / 7rem mobile,
+ * que es el aire que necesita la barra al pie.
+ */
+export const FILTER_BAR_ENABLED = false;
+
+/**
  * Pastilla "Filtrar" + botones de vista y orden por precio.
  * `groups`: [{ key, label, options: [{ value, label }] }]
  * `selected`: { [groupKey]: string[] }

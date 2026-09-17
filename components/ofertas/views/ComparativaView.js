@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from "react";
-import FilterControl from "../components/filter/FilterControl";
+import FilterControl, { FILTER_BAR_ENABLED } from "../components/filter/FilterControl";
 import {
 	applyComparativaFilters,
 	buildComparativaFilterGroups,
@@ -20,6 +20,9 @@ export default function ComparativaView({ destacados = [] }) {
 	const [selected, setSelected] = useState({ marca: [], presentacion: [] });
 	const { viewMode, toggleViewMode } = useViewMode();
 	const { priceSort, togglePriceSort } = usePriceSort();
+	// Sin la barra, la vista queda en tarjetas y sin orden por precio.
+	const layout = FILTER_BAR_ENABLED ? viewMode : "cards";
+	const sort = FILTER_BAR_ENABLED ? priceSort : null;
 
 	const items = useMemo(() => flattenDestacados(destacados), [destacados]);
 	const groups = useMemo(() => buildComparativaFilterGroups(items), [items]);
@@ -29,25 +32,27 @@ export default function ComparativaView({ destacados = [] }) {
 	);
 	const grupos = useMemo(() => {
 		const grouped = groupByCategoria(filteredItems);
-		if (!priceSort) return grouped;
+		if (!sort) return grouped;
 		return grouped.map((grupo) => ({
 			...grupo,
-			items: sortByPrice(grupo.items || [], priceSort),
+			items: sortByPrice(grupo.items || [], sort),
 		}));
-	}, [filteredItems, priceSort]);
+	}, [filteredItems, sort]);
 
 	return (
 		<>
-			<FilterControl
-				groups={groups}
-				selected={selected}
-				onChange={setSelected}
-				viewMode={viewMode}
-				onToggleView={toggleViewMode}
-				priceSort={priceSort}
-				onTogglePriceSort={togglePriceSort}
-			/>
-			<Styled.Section $layout={viewMode}>
+			{FILTER_BAR_ENABLED ? (
+				<FilterControl
+					groups={groups}
+					selected={selected}
+					onChange={setSelected}
+					viewMode={viewMode}
+					onToggleView={toggleViewMode}
+					priceSort={priceSort}
+					onTogglePriceSort={togglePriceSort}
+				/>
+			) : null}
+			<Styled.Section $layout={layout}>
 				<Title>COMPARATIVA</Title>
 				{grupos.map((grupo) => (
 					<React.Fragment key={grupo.nombre}>
@@ -55,7 +60,7 @@ export default function ComparativaView({ destacados = [] }) {
 						{grupo.items.map((item) => (
 							<ProductCard
 								key={item.id}
-								layout={viewMode}
+								layout={layout}
 								product={{
 									id: item.id,
 									brand: item.marca,
