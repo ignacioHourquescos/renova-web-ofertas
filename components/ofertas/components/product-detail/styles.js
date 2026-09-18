@@ -58,7 +58,6 @@ export const Styled = {
 		flex-direction: column;
 		flex: 0 0 52%;
 		min-width: 0;
-		background: #0b0b0b;
 		padding: clamp(0.75rem, 2vw, 1.25rem);
 		gap: 0.75rem;
 
