@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { addCommasForThousands } from "../../../../utils/brandColorFunction";
-import ImageLightbox from "../../../UI/ImageLightbox";
+import ProductDetailModal from "../product-detail/ProductDetailModal";
 import { Styled } from "./styles";
 
 const SWIPE_THRESHOLD = 40;
@@ -47,8 +47,32 @@ function buildSlides(product) {
 	return [];
 }
 
+/**
+ * Galería del detalle. Usa la del endpoint si viene; si no, reconstruye una
+ * desde los slides de la tarjeta (las grillas de filtros aportan cada celda).
+ */
+function buildDetailImages(product, slides) {
+	if (Array.isArray(product.detailImages) && product.detailImages.length) {
+		return product.detailImages
+			.map((image) => ({
+				url: image?.url || image?.thumbUrl || "",
+				thumbUrl: image?.thumbUrl || image?.url || "",
+			}))
+			.filter((image) => image.url);
+	}
+
+	return slides.flatMap((slide) => {
+		if (slide.kind === "grid") {
+			return (slide.cells || [])
+				.filter((cell) => cell.url)
+				.map((cell) => ({ url: cell.fullUrl || cell.url, thumbUrl: cell.url }));
+		}
+		return slide.url ? [{ url: slide.fullUrl || slide.url, thumbUrl: slide.url }] : [];
+	});
+}
+
 const ProductCard = ({ product, layout = "cards", enableZoom = true }) => {
-	const [lightbox, setLightbox] = useState(null);
+	const [detailIndex, setDetailIndex] = useState(null);
 	const [index, setIndex] = useState(0);
 	const touchStartX = useRef(null);
 	const didSwipe = useRef(false);
@@ -61,6 +85,7 @@ const ProductCard = ({ product, layout = "cards", enableZoom = true }) => {
 	if (!product) return null;
 
 	const slides = buildSlides(product);
+	const detailImages = buildDetailImages(product, slides);
 	const badge = String(product.badge || "").trim();
 	const safeIndex = slides.length ? Math.min(index, slides.length - 1) : 0;
 	const current = slides[safeIndex];
@@ -77,9 +102,10 @@ const ProductCard = ({ product, layout = "cards", enableZoom = true }) => {
 		setIndex((next + slides.length) % slides.length);
 	};
 
-	const openLightbox = (url, alt) => {
-		if (!enableZoom || !url || didSwipe.current) return;
-		setLightbox({ url, alt: alt || product.title || "Producto ampliado" });
+	const openDetail = (url) => {
+		if (!enableZoom || didSwipe.current || !detailImages.length) return;
+		const at = detailImages.findIndex((image) => image.url === url);
+		setDetailIndex(at >= 0 ? at : 0);
 	};
 
 	const onTouchStart = (event) => {
@@ -123,7 +149,7 @@ const ProductCard = ({ product, layout = "cards", enableZoom = true }) => {
 									}
 									onClick={(event) => {
 										event.stopPropagation();
-										openLightbox(cell.fullUrl || cell.url, cell.label);
+										openDetail(cell.fullUrl || cell.url);
 									}}
 								>
 									{cell.url ? (
@@ -139,13 +165,11 @@ const ProductCard = ({ product, layout = "cards", enableZoom = true }) => {
 							$layout={layout}
 							$imageUrl={current?.url}
 							$zoom={enableZoom}
-							onClick={() =>
-								openLightbox(current?.fullUrl || current?.url, current?.label)
-							}
+							onClick={() => openDetail(current?.fullUrl || current?.url)}
 							role={enableZoom && current?.url ? "button" : undefined}
 							aria-label={
 								enableZoom && current?.url
-									? `Ampliar imagen${current.label ? `: ${current.label}` : ""}`
+									? `Ver detalle${product.title ? `: ${product.title}` : ""}`
 									: undefined
 							}
 						/>
@@ -214,11 +238,16 @@ const ProductCard = ({ product, layout = "cards", enableZoom = true }) => {
 					</Styled.DetailContainer>
 				</Styled.Information>
 			</Styled.Inner>
-			{lightbox?.url ? (
-				<ImageLightbox
-					imageUrl={lightbox.url}
-					alt={lightbox.alt || product.title || "Producto ampliado"}
-					onClose={() => setLightbox(null)}
+			{detailIndex != null ? (
+				<ProductDetailModal
+					images={detailImages}
+					initialIndex={detailIndex}
+					brand={product.brand}
+					title={product.title}
+					priceLabel={priceText}
+					specs={product.specs || []}
+					description={product.description}
+					onClose={() => setDetailIndex(null)}
 				/>
 			) : null}
 		</>

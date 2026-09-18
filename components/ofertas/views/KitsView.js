@@ -3,6 +3,8 @@ import FilterControl, { FILTER_BAR_ENABLED } from "../components/filter/FilterCo
 import {
 	applyKitsFilters,
 	buildKitsFilterGroups,
+	getAtributosRows,
+	getImagenes,
 	groupKitsBySeccion,
 } from "../components/filter/filterHelpers";
 import Title from "../components/title/Title";
@@ -60,6 +62,9 @@ export default function KitsView({ kits = [] }) {
 									imageUrl: kit.imagenThumbUrl || kit.imagenUrl,
 									priceLabel: kit.precioFormateado,
 									price: kit.precio,
+									detailImages: getImagenes(kit),
+									specs: getAtributosRows(kit),
+									description: kit.descripcion,
 								}}
 							/>
 						))}

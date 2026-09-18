@@ -3,7 +3,9 @@ import FilterControl, { FILTER_BAR_ENABLED } from "../components/filter/FilterCo
 import {
 	applyDestacadosFilters,
 	buildDestacadosFilterGroups,
+	getAtributosRows,
 	getGraduacion,
+	getImagenes,
 } from "../components/filter/filterHelpers";
 import Title from "../components/title/Title";
 import ProductCard from "../components/product-card/ProductCard";
@@ -58,6 +60,9 @@ export default function DestacadosView({ destacados = [] }) {
 									priceLabel: item.precioFormateado,
 									price: item.precio,
 									badge: getGraduacion(item),
+									detailImages: getImagenes(item),
+									specs: getAtributosRows(item),
+									description: item.descripcion,
 								}}
 							/>
 						))}

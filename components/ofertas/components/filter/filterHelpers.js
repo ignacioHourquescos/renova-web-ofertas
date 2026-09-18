@@ -25,6 +25,38 @@ export function getGraduacion(item = {}) {
 		.toUpperCase();
 }
 
+/**
+ * Atributos del artículo como filas etiqueta/valor para el detalle.
+ * Se omiten las que no tienen valor cargado en el admin.
+ */
+export function getAtributosRows(item = {}) {
+	const atributos = item.atributos || {};
+	const clean = (value) => String(value || "").trim();
+
+	return [
+		{ label: "Presentación", value: getPresentacion(item) },
+		{ label: "Tipo", value: clean(atributos.tipoNombre || atributos.tipo) },
+		{ label: "Graduación", value: getGraduacion(item) },
+		{ label: "Norma ACEA", value: clean(atributos.acea) },
+		{ label: "Norma API", value: clean(atributos.api) },
+	].filter((row) => row.value);
+}
+
+/** Galería del ítem normalizada a { url, thumbUrl }, con fallback a la imagen principal. */
+export function getImagenes(item = {}) {
+	const galeria = (Array.isArray(item.imagenes) ? item.imagenes : [])
+		.map((img) => ({
+			url: String(img?.url || img?.thumbUrl || "").trim(),
+			thumbUrl: String(img?.thumbUrl || img?.url || "").trim(),
+		}))
+		.filter((img) => img.url);
+
+	if (galeria.length) return galeria;
+
+	const url = String(item.imagenUrl || item.imagenThumbUrl || "").trim();
+	return url ? [{ url, thumbUrl: item.imagenThumbUrl || url }] : [];
+}
+
 /** Opciones de filtro para Kits: Autos / Camionetas. */
 export function buildKitsFilterGroups(kits = []) {
 	const tipos = uniqueSorted(kits.map((k) => k.tipoVehiculo));
