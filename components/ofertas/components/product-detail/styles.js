@@ -21,8 +21,8 @@ export const Styled = {
 		max-height: 90vh;
 		overflow: hidden;
 		border-radius: 12px;
-		background: #fff;
-		box-shadow: 0 18px 48px rgba(0, 0, 0, 0.45);
+		background: #111;
+		box-shadow: 0 18px 48px rgba(0, 0, 0, 0.6);
 		cursor: default;
 
 		@media ${device.tablet} {
@@ -43,19 +43,22 @@ export const Styled = {
 		padding: 0;
 		border: none;
 		border-radius: 999px;
-		background: rgba(255, 255, 255, 0.92);
-		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-		color: #222;
+		background: rgba(255, 255, 255, 0.14);
+		color: #fff;
 		font-size: 1.35rem;
 		line-height: 1;
 		cursor: pointer;
+
+		&:hover {
+			background: rgba(255, 255, 255, 0.26);
+		}
 	`,
 	Gallery: styled.div`
 		display: flex;
 		flex-direction: column;
 		flex: 0 0 52%;
 		min-width: 0;
-		background: #fafafa;
+		background: #0b0b0b;
 		padding: clamp(0.75rem, 2vw, 1.25rem);
 		gap: 0.75rem;
 
@@ -98,10 +101,13 @@ export const Styled = {
 		padding: 0;
 		border: none;
 		border-radius: 999px;
-		background: rgba(255, 255, 255, 0.92);
-		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
-		color: #222;
+		background: rgba(255, 255, 255, 0.14);
+		color: #fff;
 		cursor: pointer;
+
+		&:hover {
+			background: rgba(255, 255, 255, 0.26);
+		}
 
 		svg {
 			width: 1.1rem;
@@ -121,9 +127,9 @@ export const Styled = {
 		width: 3.25rem;
 		height: 3.25rem;
 		padding: 0.15rem;
-		border: 2px solid ${(props) => (props.$active ? "#e67e00" : "rgba(0, 0, 0, 0.12)")};
+		border: 2px solid ${(props) => (props.$active ? "#e67e00" : "rgba(255, 255, 255, 0.18)")};
 		border-radius: 8px;
-		background: #fff;
+		background: rgba(255, 255, 255, 0.06);
 		cursor: pointer;
 
 		img {
@@ -149,14 +155,14 @@ export const Styled = {
 		font-weight: 600;
 		letter-spacing: 0.08em;
 		text-transform: uppercase;
-		color: #777;
+		color: #999;
 	`,
 	Title: styled.h2`
 		margin: 0.2rem 0 0;
 		font-size: clamp(1.05rem, 2.2vw, 1.4rem);
 		font-weight: 700;
 		line-height: 1.25;
-		color: #1a1a1a;
+		color: #fff;
 	`,
 	Price: styled.div`
 		margin-top: 0.5rem;
@@ -171,7 +177,7 @@ export const Styled = {
 		gap: 0.3rem 0.85rem;
 		margin: 1rem 0 0;
 		padding: 0.85rem 0 0;
-		border-top: 1px solid rgba(0, 0, 0, 0.08);
+		border-top: 1px solid rgba(255, 255, 255, 0.12);
 
 		dt {
 			font-size: 0.72rem;
@@ -185,16 +191,16 @@ export const Styled = {
 			margin: 0;
 			font-size: 0.85rem;
 			font-weight: 600;
-			color: #222;
+			color: #f2f2f2;
 		}
 	`,
 	Description: styled.p`
 		margin: 1rem 0 0;
 		padding-top: 0.85rem;
-		border-top: 1px solid rgba(0, 0, 0, 0.08);
+		border-top: 1px solid rgba(255, 255, 255, 0.12);
 		font-size: 0.85rem;
 		line-height: 1.55;
-		color: #555;
+		color: #aaa;
 		white-space: pre-line;
 	`,
 };
