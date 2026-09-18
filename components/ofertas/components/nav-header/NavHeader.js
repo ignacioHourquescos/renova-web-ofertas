@@ -30,12 +30,16 @@ export const NAV_ITEMS = [
 const NavHeader = () => {
 	const router = useRouter();
 	const path = router.asPath.split("?")[0];
+	const homeActive = path === HOME_HREF;
 
 	return (
 		<Styled.Bar>
 			<Link href={HOME_HREF} passHref legacyBehavior>
-				<Styled.Brand aria-label="Inicio">
-					<Styled.BrandImage src="/brand/logo-renova.png" alt="Renova" />
+				<Styled.Brand
+					aria-label="Inicio"
+					aria-current={homeActive ? "page" : undefined}
+				>
+					<Styled.BrandImage $active={homeActive} />
 				</Styled.Brand>
 			</Link>
 			<Styled.Inner>

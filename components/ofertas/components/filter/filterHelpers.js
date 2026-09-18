@@ -14,6 +14,17 @@ export function getPresentacion(item = {}) {
 	return String(item.presentacion || item.etiquetaPrecio || "").trim();
 }
 
+/**
+ * Graduación cargada en el admin ("5W30"). Llega como slug + nombre;
+ * el slug viene en minúscula, así que para mostrar se usa el nombre.
+ */
+export function getGraduacion(item = {}) {
+	const atributos = item.atributos || {};
+	return String(atributos.graduacionNombre || atributos.graduacion || "")
+		.trim()
+		.toUpperCase();
+}
+
 /** Opciones de filtro para Kits: Autos / Camionetas. */
 export function buildKitsFilterGroups(kits = []) {
 	const tipos = uniqueSorted(kits.map((k) => k.tipoVehiculo));

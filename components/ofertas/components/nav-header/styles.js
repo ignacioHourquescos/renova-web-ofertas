@@ -11,7 +11,7 @@ export const Styled = {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		gap: clamp(0.55rem, 1.4vw, 0.9rem);
+		gap: clamp(1.75rem, 4vw, 2.75rem);
 		padding: clamp(0.9rem, 2.2vw, 1.5rem) 1rem clamp(0.6rem, 1.4vw, 0.95rem);
 		box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
 	`,
@@ -19,10 +19,18 @@ export const Styled = {
 		display: block;
 		line-height: 0;
 	`,
-	BrandImage: styled.img`
-		width: clamp(7rem, 14vw, 10rem);
-		height: auto;
+	BrandImage: styled.span`
 		display: block;
+		width: clamp(7rem, 14vw, 10rem);
+		aspect-ratio: 1280 / 302;
+		background-color: ${(props) => (props.$active ? "orange" : "#fff")};
+		mask: url("/brand/logo-renova.png") center / contain no-repeat;
+		-webkit-mask: url("/brand/logo-renova.png") center / contain no-repeat;
+		transition: background-color 0.15s ease;
+
+		&:hover {
+			background-color: orange;
+		}
 	`,
 	Inner: styled.nav`
 		display: flex;
@@ -34,6 +42,10 @@ export const Styled = {
 		@media ${device.tablet} {
 			gap: 1.15rem;
 		}
+
+		@media ${device.mobileM} {
+			gap: 0.6rem;
+		}
 	`,
 	Item: styled.a`
 		position: relative;
@@ -41,7 +53,7 @@ export const Styled = {
 		align-items: center;
 		padding-bottom: 0.32rem;
 		color: ${(props) => (props.$active ? "orange" : "#fff")};
-		font-size: clamp(0.66rem, 0.9vw, 0.8rem);
+		font-size: clamp(0.82rem, 1.15vw, 1rem);
 		font-weight: 700;
 		letter-spacing: 0.07em;
 		text-transform: uppercase;
@@ -65,6 +77,12 @@ export const Styled = {
 
 		@media ${device.tablet} {
 			letter-spacing: 0.04em;
+		}
+
+		/* En pantallas muy angostas los cuatro ítems no entran en una línea. */
+		@media ${device.mobileM} {
+			font-size: 0.72rem;
+			letter-spacing: 0.01em;
 		}
 	`,
 };

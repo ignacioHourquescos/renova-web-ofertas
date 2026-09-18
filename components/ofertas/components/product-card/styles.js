@@ -421,6 +421,42 @@ export const Styled = {
 			}
 		`}
 	`,
+	/** Chip de graduación sobre la imagen, abajo a la derecha. */
+	Badge: styled.span`
+		position: absolute;
+		z-index: 2;
+		border-radius: 999px;
+		background: #111;
+		color: #fff;
+		font-weight: 700;
+		letter-spacing: 0.04em;
+		line-height: 1.6;
+		white-space: nowrap;
+		pointer-events: none;
+
+		${(props) =>
+			props.$layout === "list"
+				? `
+			right: 0;
+			bottom: 0;
+			font-size: 0.5rem;
+			padding: 0 0.28rem;
+		`
+				: `
+			/* Corrido del borde para no pisar los dots del carrusel. */
+			right: 0.45rem;
+			bottom: 0.85rem;
+			font-size: 0.6rem;
+			padding: 0.05rem 0.42rem;
+
+			@media ${device.mobileL} {
+				right: 0.3rem;
+				bottom: 0.7rem;
+				font-size: 0.52rem;
+				padding: 0.04rem 0.34rem;
+			}
+		`}
+	`,
 	Code: styled.div`
 		display: none;
 	`,

@@ -61,6 +61,7 @@ const ProductCard = ({ product, layout = "cards", enableZoom = true }) => {
 	if (!product) return null;
 
 	const slides = buildSlides(product);
+	const badge = String(product.badge || "").trim();
 	const safeIndex = slides.length ? Math.min(index, slides.length - 1) : 0;
 	const current = slides[safeIndex];
 	const hasCarousel = slides.length > 1;
@@ -194,6 +195,7 @@ const ProductCard = ({ product, layout = "cards", enableZoom = true }) => {
 							</Styled.Dots>
 						</>
 					) : null}
+					{badge ? <Styled.Badge $layout={layout}>{badge}</Styled.Badge> : null}
 				</Styled.Media>
 				<Styled.Information $layout={layout}>
 					<Styled.TextBlock $layout={layout}>
