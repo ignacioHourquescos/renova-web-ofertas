@@ -1,4 +1,4 @@
-import { Fragment, useCallback, useEffect, useState } from "react";
+import { Fragment, useCallback, useEffect, useMemo, useState } from "react";
 import { Styled } from "./styles";
 
 const ChevronLeft = () => (
@@ -41,10 +41,31 @@ const ProductDetailModal = ({
 	initialIndex = 0,
 	onClose,
 }) => {
-	const usable = images.filter((image) => image?.url);
+	const usable = useMemo(() => images.filter((image) => image?.url), [images]);
 	const [index, setIndex] = useState(() =>
 		usable.length ? Math.min(Math.max(initialIndex, 0), usable.length - 1) : 0
 	);
+	const [ready, setReady] = useState({});
+
+	/**
+	 * Storage tarda ~2s en responder, así que hasta que llega la imagen grande se
+	 * muestra el thumbnail, que ya está en caché porque lo usó la tarjeta.
+	 * Se precarga toda la galería para que cambiar de foto sea instantáneo.
+	 */
+	useEffect(() => {
+		const loaders = usable.map((image) => {
+			const loader = new window.Image();
+			loader.onload = () => setReady((prev) => ({ ...prev, [image.url]: true }));
+			loader.src = image.url;
+			return loader;
+		});
+
+		return () => {
+			loaders.forEach((loader) => {
+				loader.onload = null;
+			});
+		};
+	}, [usable]);
 
 	const goTo = useCallback(
 		(next) => {
@@ -84,7 +105,10 @@ const ProductDetailModal = ({
 				</Styled.CloseButton>
 				<Styled.Gallery>
 					<Styled.Stage>
-						<Styled.MainImage src={current.url} alt={title || "Artículo"} />
+						<Styled.MainImage
+							src={ready[current.url] ? current.url : current.thumbUrl || current.url}
+							alt={title || "Artículo"}
+						/>
 						{hasCarousel ? (
 							<>
 								<Styled.NavButton
